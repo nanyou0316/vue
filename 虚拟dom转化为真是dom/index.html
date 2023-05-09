@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const vNode = {
+        tag: 'DIV',
+        attrs: {
+          id: 123,
+        },
+        children:[
+          {
+            tag:'SPAN',
+            children:[
+              {
+                tag:'A',
+                children:[]
+              },
+            ]
+          },
+          {
+            tag:'SPAN',
+            children:[
+              {
+                tag:'A',
+                children:[]
+              },
+              {
+                tag:'A',
+                children:[]
+              },
+            ]
+          }
+        ]
+      }
+      
+      function rendem(vNode){
+        //如果是数字就转为字符串
+        if(typeof vNode === 'number'){
+          console.log(111);
+          vNode=String(vNode)
+        }
+        //字符串类型转为文本节点
+        if(typeof vNode === 'string'){
+          console.log(222);
+          return document.createTextNode(vNode)
+        }
+        //普通的dom
+        const dom=document.createElement(vNode.tag)
+        if(vNode.attrs){
+          Object.keys(vNode.attrs).forEach(key=>{
+            const value=vNode.attrs[key]
+            dom.setAttribute(key,value)
+          })
+        }
+        //递归
+        vNode.children.forEach(child=>dom.appendChild(rendem(child)))
+        return dom
+      }
+      console.log(rendem(vNode));
+      
+    </script>
+  </body>
+</html>
